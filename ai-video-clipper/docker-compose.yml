@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - RELOAD=false
+      # Data directories (persisted via Railway volumes)
+      - DATA_DIR=/app/data
+      - UPLOADS_DIR=/app/data/uploads
+      - OUTPUTS_DIR=/app/data/outputs
+      - TEMP_DIR=/app/data/temp
+      # Whisper settings (CPU optimized)
+      - WHISPER_MODEL=base
+      - WHISPER_DEVICE=cpu
+      - WHISPER_COMPUTE_TYPE=int8
+      # LLM: Use free cloud API (Groq/OpenRouter) since no local Ollama on Railway
+      - LLM_PROVIDER=openai_compatible
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-https://api.groq.com/openai/v1}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_MODEL=${OPENAI_MODEL:-llama-3.1-8b-instant}
+      # Video processing
+      - TARGET_WIDTH=1080
+      - TARGET_HEIGHT=1920
+      - TARGET_FPS=30
+      - CLIP_MIN_DURATION=30
+      - CLIP_MAX_DURATION=60
+      # Face tracking
+      - FACE_DETECTION_CONFIDENCE=0.5
+      - FACE_SMOOTHING_FRAMES=5
+      # Captions
+      - CAPTION_FONT=Arial
+      - CAPTION_FONT_SIZE=80
+      - CAPTION_COLOR=#FFFFFF
+      - CAPTION_HIGHLIGHT_COLOR=#FFD700
+      - CAPTION_OUTLINE_COLOR=#000000
+      - CAPTION_OUTLINE_WIDTH=3
+      - CAPTION_MARGIN_V=150
+      # Limits
+      - MAX_CONCURRENT_JOBS=1
+      - JOB_TIMEOUT_SECONDS=3600
+    volumes:
+      - backend_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE=http://backend:8000
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend_data:

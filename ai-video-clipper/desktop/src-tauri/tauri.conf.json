@@ -1,0 +1,111 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "AI Video Clipper",
+  "version": "1.0.0",
+  "identifier": "com.ai-video-clipper.app",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "AI Video Clipper",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 1024,
+        "minHeight": 720,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [
+      "backend/**/*",
+      "!backend/__pycache__/**",
+      "!backend/.venv/**",
+      "!backend/venv/**",
+      "!backend/data/**",
+      "!backend/*.log"
+    ],
+    "externalBin": [
+      "backend/sidecar"
+    ],
+    "copyright": "MIT License",
+    "category": "Video",
+    "shortDescription": "Transform long-form videos into viral short-form clips",
+    "longDescription": "AI Video Clipper uses local AI (Whisper + Ollama) to automatically extract viral clips from long videos with dynamic captions.",
+    "deb": {
+      "depends": [
+        "ffmpeg",
+        "libass9",
+        "python3"
+      ]
+    },
+    "appimage": {
+      "bundleMediaFramework": true
+    },
+    "dmg": {
+      "windowSize": {
+        "width": 540,
+        "height": 380
+      }
+    },
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      }
+    }
+  },
+  "plugins": {
+    "shell": {
+      "all": true,
+      "open": true,
+      "scope": [
+        {
+          "name": "backend",
+          "cmd": "backend/sidecar",
+          "args": []
+        }
+      ]
+    },
+    "fs": {
+      "all": true,
+      "scope": {
+        "allow": [
+          "$APPDATA/ai-video-clipper/**",
+          "$HOME/.ai-video-clipper/**",
+          "$DOWNLOAD/**",
+          "$DESKTOP/**"
+        ]
+      }
+    },
+    "dialog": {
+      "all": true,
+      "open": true,
+      "save": true
+    },
+    "notification": {
+      "all": true
+    },
+    "updater": {
+      "active": false
+    }
+  }
+}

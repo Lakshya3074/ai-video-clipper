@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0a0b;
+  --foreground: #fafafa;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a1b;
+  --secondary-foreground: #fafafa;
+  --muted: #1a1a1b;
+  --muted-foreground: #a1a1aa;
+  --accent: #1a1a1b;
+  --accent-foreground: #fafafa;
+  --border: #27272a;
+  --ring: #3b82f6;
+  --card: #131314;
+  --card-foreground: #fafafa;
+  --radius: 0.5rem;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+video::-webkit-media-controls-panel {
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+}
+
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-volume-slider {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
