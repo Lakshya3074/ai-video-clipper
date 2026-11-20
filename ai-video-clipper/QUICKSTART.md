@@ -10,7 +10,7 @@ refreshenv
 
 # 2. Clone and run
 cd $HOME
-git clone https://github.com/YOU/ai-video-clipper.git  # or unzip this folder
+git clone https://github.com/Lakshya3074/ai-video-clipper.git  # or unzip this folder
 cd ai-video-clipper\backend
 
 # 3. Install Python deps
@@ -62,7 +62,7 @@ sudo apt update && sudo apt install -y python3.10 python3-pip nodejs npm ffmpeg
 
 # 2. Clone and run
 cd ~
-git clone https://github.com/YOU/ai-video-clipper.git
+git clone https://github.com/Lakshya3074/ai-video-clipper.git
 cd ai-video-clipper/backend
 
 # 3. Install Python deps
@@ -85,14 +85,7 @@ npm run dev
 
 ## Option B: Railway Deploy (3 mins, free tier, online instantly)
 
-```bash
-# 1. Push to GitHub
-git init && git add . && git commit -m "AI Video Clipper"
-git branch -M main
-git remote add origin https://github.com/YOUR_USER/ai-video-clipper.git
-git push -u origin main
-
-# 2. Go to https://railway.app
+# 1. Go to https://railway.app
 #    - New Project → Deploy from GitHub → Select repo
 #    - Backend service → Variables → Add:
 #      OPENAI_API_KEY=gsk_get_from_groq
